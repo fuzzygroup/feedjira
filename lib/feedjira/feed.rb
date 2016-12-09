@@ -78,8 +78,10 @@ module Feedjira
       feed
     end
 
+     # 
     def self.connection(url)
       Faraday.new(url: url) do |conn|
+        conn.proxy "http://#{ProxyServer.random}:#{PROXY_PORT}"
         conn.use FaradayMiddleware::FollowRedirects, limit: 3
         conn.adapter :net_http
       end
